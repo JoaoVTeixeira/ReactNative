@@ -5,49 +5,45 @@ import { useState } from 'react';
 
 export default function App() {
 
-  let listaInicial = [{Nome:"Caderno", Valor:40}, {Nome:"Lapis", Valor: 3}]
-  let [listaMateriais, setListaMateriais] = useState([listaInicial])
+  let [listaMateriais, setListaMateriais] = useState([])
   let [Nome, setNome] = useState()
   let [Valor,setValor] = useState()
-  console.log(Nome,Valor)
 
-  let addMaterial = (nome, valor) => {
-    console.log(nome,valor)
-    let Material = {nome:`${nome}`, Valor:`${valor}`}
-    setListaMateriais(listaMateriais.concat(Material))
+  const addMaterial = async () => {
+    console.log("abc",Nome,Valor)
+    const Material = {Nome:`${Nome}`, Valor:`${Valor}`}
+    setListaMateriais([...listaMateriais, Material])
   }
-  console.log(Nome,Valor)
-
 
   return (
     <View style={styles.container}>
       <Text>APP - Lista de Material Escolar</Text>
       <StatusBar style="auto" />
-      {listaMateriais.map((itens, index)=>{
-          return (<FlatList
-            style={styles.Lista}
-
-      data = {itens}
-      renderItem={({item})=> <Text key={index} style={styles.Texto}>{item.Nome}, {item.Valor}</Text>} 
-  />)
-      })}
+      <FlatList
+  data={listaMateriais}
+  keyExtractor={(item, index) => index.toString()}
+  renderItem={({ item }) => (
+    <Text style={styles.Texto}>{item.Nome} -- {item.Valor}</Text>
+  )}
+/>
       
 
 
       <TextInput 
         value={Nome}
         onChangeText={nome=>setNome(nome)}
-        style={styles.input} 
+        style={styles.TextoInput} 
         placeholder='Nome'/>
 
       <TextInput 
         value={Valor}
         onChangeText={valor=>setValor(valor)}
-        style={styles.input} 
+        style={styles.TextoInput} 
         placeholder='Valor' />
 
       <Button
         onPress={addMaterial}
+        style={styles.Button}
         title='Submit'
         color='orange' />
   
@@ -70,13 +66,18 @@ const styles = StyleSheet.create({
     fontSize: 24,
   },
   TextoInput: {
-    fontSize: 24,
-    marginBottom: 25,
+    fontSize: 16,
+    marginBottom: 15,
+    width:'40%',
+    height:'8%',
     backgroundColor: 'lightgray',
     padding: 15,
     borderRadius: 25,
     borderWidth: 1,
     textAlign: 'center'
     
+  },
+  Button:{
+    marginBottom:'20%'
   }
 });
