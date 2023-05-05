@@ -10,26 +10,33 @@ export default function App() {
   let [Valor,setValor] = useState()
 
   const addMaterial = async () => {
-    console.log("abc",Nome,Valor)
-    const Material = {Nome:`${Nome}`, Valor:`${Valor}`}
-    setListaMateriais([...listaMateriais, Material])
+    if(!Nome || !Valor){
+      alert("Preencha os dois campos")
+    }else{
+      console.log("abc",Nome,Valor)
+      const Material = {Nome:`${Nome}`, Valor:`${Valor}`}
+      setListaMateriais([...listaMateriais, Material])
+    }
+    
   }
 
   return (
     <View style={styles.container}>
-      <Text>APP - Lista de Material Escolar</Text>
+      <Text style={styles.TextoTitle}>APP - Lista de Material Escolar</Text>
       <StatusBar style="auto" />
       <FlatList
+      style={styles.List}
   data={listaMateriais}
   keyExtractor={(item, index) => index.toString()}
   renderItem={({ item }) => (
-    <Text style={styles.Texto}>{item.Nome} -- {item.Valor}</Text>
+    <Text style={styles.Texto}>{item.Nome}  |  {item.Valor}</Text>
   )}
 />
       
 
 
       <TextInput 
+        required
         value={Nome}
         onChangeText={nome=>setNome(nome)}
         style={styles.TextoInput} 
@@ -40,13 +47,13 @@ export default function App() {
         onChangeText={valor=>setValor(valor)}
         style={styles.TextoInput} 
         placeholder='Valor' />
-
+  <View style={styles.botao}>
       <Button
         onPress={addMaterial}
-        style={styles.Button}
+        style={styles.Botao}
         title='Submit'
         color='orange' />
-  
+  </View>
     
     </View>
 
@@ -64,6 +71,25 @@ const styles = StyleSheet.create({
   },
   Texto: {
     fontSize: 24,
+    textAlign:'center',
+    textTransform:'uppercase'
+
+  },
+  TextoTitle: {
+    fontSize: 24,
+    marginTop:'30%',
+  },
+  List: {
+    backgroundColor:'salmon',
+    padding: 20,
+    width:'60%',
+    marginBottom: '5%',
+    marginTop:'5%',
+    borderRadius:10,
+    borderWidth:3,
+    shadowOffset:'black'
+    
+
   },
   TextoInput: {
     fontSize: 16,
@@ -71,13 +97,13 @@ const styles = StyleSheet.create({
     width:'40%',
     height:'8%',
     backgroundColor: 'lightgray',
-    padding: 15,
+    padding: 5,
     borderRadius: 25,
-    borderWidth: 1,
+    borderWidth: 2,
     textAlign: 'center'
     
   },
-  Button:{
-    marginBottom:'20%'
+  botao:{
+    marginBottom:10
   }
 });
